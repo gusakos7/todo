@@ -1,0 +1,52 @@
+.app__input {
+    border-radius: 2px;
+    width: 400px;
+    height: 50px;
+    border: transparent;
+    background-color: rgb(240, 240, 240);
+}
+.input {
+    left :10px;
+    display: flex;
+    justify-content: space-around;
+    
+}
+.app__button {
+    background-color: rgb(190, 190, 190);
+    font-family:Georgia, 'Times New Roman', Times, serif;
+    height:50px;
+    margin-left: 0;
+}
+
+.app__todo__button {
+    border-radius: 45%;
+    margin: 15px 0 ;
+}
+
+.app__todo {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.app__list{
+    margin:100px;
+    display:flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+
+.app__todo{
+    display: flex;
+    flex-direction: row;
+    
+}
+
+
+
+#checkbox {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+}
+
