@@ -23,10 +23,6 @@
     margin: 15px 0 ;
 }
 
-.app__todo {
-    display: flex;
-    justify-content: space-evenly;
-}
 
 .app__list{
     margin:100px;
@@ -39,9 +35,36 @@
 .app__todo{
     display: flex;
     flex-direction: row;
+    justify-content: space-evenly;
+    padding:0 20px;
+    margin:0 20px;
     
 }
 
+.app__card {
+    display: flex;
+    background-color: #e8e8e4;
+    box-shadow: 10px 5px 8px black;
+    border-radius: 20px;
+    margin-top: 5px;
+}
+
+.app__card__btns{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin: 8px;
+    
+}
+
+.arrow_up {
+    border: solid black;
+    border-width: 0 3px 3px 0;
+    display: inline-block;
+    padding: 3px;
+    transform: rotate(135deg);
+    -webkit-transform: rotate(-135deg);
+}
 
 
 #checkbox {
