@@ -1,9 +1,13 @@
 
 
-export const doneTodo = (index) => {
+export const doneTodo = (index, bool) => {
+    // console.log(index, bool);
     return {
         type: 'DONE_TODO',
-        payload: index
+        payload: {
+            index,
+            bool
+        }
     };
 };
 

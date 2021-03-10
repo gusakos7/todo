@@ -14,15 +14,25 @@ function App() {
   const getInput = (val) => {
     setInput(val.target.value);
   };
+
+  const handleClick = () => {
+    dispatch(Actions.addTodo(input));
+    setInput('');
+  };
+
+
+
+  console.log(todos);
+
   return (
     <div className="App">
       <Header />
       <section className="input" >
         <div>
-          <input className="app__input" placeholder="new Todo.." onChange={getInput} />
+          <input className="app__input" placeholder="new Todo.." value={input} onChange={getInput} />
           <button
             className="app__button"
-            onClick={() => dispatch(Actions.addTodo(input))}
+            onClick={handleClick}
           >Add new</button>
         </div>
       </section>
@@ -30,9 +40,7 @@ function App() {
       <div className="app__list">
 
         {todos.map((todo, index) => (
-          <div key={`todo${index}`} className="app__todo">
-            <Todo text={todo.text} id={todo.id} />
-          </div>
+          <Todo text={todo.text} done={todo.done} key={todo.id} index={index} />
         ))}
 
       </div>
