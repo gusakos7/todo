@@ -25,25 +25,30 @@ function App() {
   console.log(todos);
 
   return (
-    <div className="App">
+    <div className="app">
       <Header />
-      <section className="input" >
-        <div>
+      <main>
+
+        <section className="input" >
           <input className="app__input" placeholder="new Todo.." value={input} onChange={getInput} />
           <button
             className="app__button"
             onClick={handleClick}
           >Add new</button>
-        </div>
-      </section>
+        </section>
 
-      <div className="app__list">
+        <section className="app__list">
 
-        {todos.map((todo, index) => (
-          <Todo text={todo.text} done={todo.done} key={todo.id} index={index} />
-        ))}
+          {todos.map((todo, index) => (
+            <Todo text={todo.text} done={todo.done} key={todo.id} id={todo.id} index={index} />
+          ))}
 
-      </div>
+        </section>
+      </main>
+
+      <footer>
+        Konstantinos Raftopoulos
+      </footer>
 
     </div >
   );

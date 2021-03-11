@@ -3,7 +3,7 @@ import './Todo.css';
 import * as Actions from './actions';
 import { useDispatch } from 'react-redux';
 
-const Todo = ({ text, done, index }) => {
+const Todo = ({ text, done, index, id }) => {
 
     const dispatch = useDispatch();
     console.log(text, done);
@@ -12,7 +12,7 @@ const Todo = ({ text, done, index }) => {
             <section className="todo__left">
                 <span className="checkbox">
 
-                    <input id="checkbox" type="checkbox" value={done} onClick={() => dispatch(Actions.doneTodo(index, !done))} />
+                    <input id="checkbox" type="checkbox" value={done} onClick={() => dispatch(Actions.doneTodo(id))} />
                 </span>
                 <span className="todo__text" >{text}</span>
             </section>
