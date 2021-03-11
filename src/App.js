@@ -2,95 +2,53 @@ import React, { useState } from 'react';
 import './App.css';
 import Todo from './Todo';
 import Header from './Header';
-
-let count = 0;
+import * as Actions from './actions';
+import { useSelector, useDispatch } from 'react-redux'
 
 function App() {
   const [input, setInput] = useState(null);
-  const [todos, setTodos] = useState([]);
+
+  const todos = useSelector(state => state.todos);
+  const dispatch = useDispatch();
 
   const getInput = (val) => {
     setInput(val.target.value);
   };
 
   const handleClick = () => {
-    const todo = {
-      text: input,
-      id: count
-    };
-    count++;
-    setTodos([...todos, todo]);
+    dispatch(Actions.addTodo(input));
     setInput('');
   };
 
-  const handleRemove = (e) => {
-    const temp = todos.filter((t, i) => t.id !== e.id);
-    setTodos(temp);
-  }
 
-  const handleMoveUp = (e) => {
-    const index = todos.indexOf(e);
-    if (index > 0) {
-      const tempArr = todos.filter((t) => t.id !== e.id);
-      tempArr.splice(index - 1, 0, e);
-      console.log(index, 'up');
 
-      setTodos(tempArr);
-    }
-  }
-
-  const handleMoveDown = (e) => {
-    const index = todos.indexOf(e);
-    if (index < todos.length) {
-      const tempArr = todos.filter((t) => t.id !== e.id);
-      tempArr.splice(index + 1, 0, e);
-      console.log(index, 'down');
-
-      setTodos(tempArr);
-    }
-  }
+  console.log(todos);
 
   return (
-
-
-    <div className="App">
+    <div className="app">
       <Header />
-      <section className="input" >
-        <div>
-          <input className="app__input" value={input} placeholder="new Todo.." onChange={getInput} />
+      <main>
+
+        <section className="input" >
+          <input className="app__input" placeholder="new Todo.." value={input} onChange={getInput} />
           <button
             className="app__button"
             onClick={handleClick}
           >Add new</button>
-        </div>
-      </section>
+        </section>
 
-      <div className="app__list">
-        <div>
-          {todos.map((todo) => (
-            <div key={todo.id} className="app__todo">
-              <div className="app__card" >
-                <Todo text={todo.text} id={todo.id} />
-                <div className="app__card__btns">
-                  <button
-                    className="up"
-                    onClick={() => handleMoveUp(todo)}
-                  > UP
-                    <i className="arrow__up"></i>
-                  </button>
-                  <button
-                    className="down"
-                    onClick={() => handleMoveDown(todo)}
-                  >DOWN
-                    <i className="arrow__down"></i>
-                  </button>
-                </div>
-              </div>
-              <button className="app__todo__button" onClick={() => handleRemove(todo)} >Remove</button>
-            </div>
+        <section className="app__list">
+
+          {todos.map((todo, index) => (
+            <Todo text={todo.text} done={todo.done} key={todo.id} id={todo.id} index={index} />
           ))}
-        </div>
-      </div>
+
+        </section>
+      </main>
+
+      <footer>
+        Konstantinos Raftopoulos
+      </footer>
 
     </div >
   );

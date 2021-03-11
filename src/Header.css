@@ -1,12 +1,13 @@
-.header {
-    background-color: rgb(235, 185, 178);
-    padding-top: 15px;
-
+header {
+    text-align: center;
+    background-color: #f4a261;
+    height: 10%;
+    
 }
 
-.header__title {
-    font-size: 50px;
-    position: relative;
-    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-    left: 40%;
+header .title {
+   font-size: 4em;
+   font-family:monospace;
+   font-weight: 700;
+   line-height: 1em;
 }
