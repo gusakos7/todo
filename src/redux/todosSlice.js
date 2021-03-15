@@ -1,14 +1,20 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, createEntityAdapter } from '@reduxjs/toolkit';
+
+const todosAdapter = createEntityAdapter({});
 
 const todosSlice = createSlice({
     name: 'todos',
-    initialState: {
-        counter: 0,
-        todos: []
-    },
+    initialState: todosAdapter.getInitialState({
+        counter: 0
+    }),
     reducers: {
         addTodo: (state, action) => {
-            state.todos.push({
+            // state.todos.push({
+            //     text: action.payload,
+            //     id: state.counter,
+            //     done: false
+            // });
+            todosAdapter.addOne({
                 text: action.payload,
                 id: state.counter,
                 done: false
