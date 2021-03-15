@@ -2,27 +2,27 @@ import React, { useState } from 'react';
 import './App.css';
 import Todo from './Todo';
 import Header from './Header';
-import * as Actions from './actions';
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux';
+import { addTodo } from './redux/todos';
+
+// import * as Actions from './actions';
 
 function App() {
   const [input, setInput] = useState(null);
-
-  const todos = useSelector(state => state.todos);
   const dispatch = useDispatch();
+
+  // const todos = useSelector(state => state.todos);
 
   const getInput = (val) => {
     setInput(val.target.value);
   };
+  const { todos } = useSelector(state => state.todosList);
 
   const handleClick = () => {
-    dispatch(Actions.addTodo(input));
+    dispatch(addTodo(input));
     setInput('');
   };
 
-
-
-  console.log(todos);
 
   return (
     <div className="app">
