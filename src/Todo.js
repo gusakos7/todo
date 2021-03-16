@@ -55,5 +55,3 @@ const Todo = ({ text, done, id }) => {
 };
 
 export default Todo;
-
-

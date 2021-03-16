@@ -9,34 +9,28 @@ const todosSlice = createSlice({
     }),
     reducers: {
         addTodo: (state, action) => {
-            // state.todos.push({
-            //     text: action.payload,
-            //     id: state.counter,
-            //     done: false
-            // });
-            todosAdapter.addOne({
+            todosAdapter.addOne(state, {
                 text: action.payload,
                 id: state.counter,
                 done: false
             });
             state.counter++;
-        },
+        }
+        ,
         doneTodo: (state, action) => {
-            const todo = state.todos.find(todo => todo.id === action.payload);
-            todo.done = !todo.done;
-        },
-        removeTodo: (state, action) => {
-            return {
-                ...state,
-                todos: state.todos.filter(todo => todo.id !== action.payload)
-            };
-
-        },
+            todosAdapter.updateOne(state, {
+                id: action.payload,
+                changes: { done: state.entities[action.payload].done }
+            })
+        }
+        ,
+        removeTodo: todosAdapter.removeOne
+        ,
         moveUp: (state, action) => {
-            const todo = state.todos.find((todo) => todo.id === action.payload);
-            const index = state.todos.indexOf(todo);
+            const todo = state.entities.find((todo) => todo.id === action.payload);
+            const index = state.entities.indexOf(todo);
             if (index > 0) {
-                const newArr = state.todos.filter((todo) => todo.id !== action.payload);
+                const newArr = state.entities.filter((todo) => todo.id !== action.payload);
                 newArr.splice(index - 1, 0, todo);
                 return {
                     ...state,
@@ -45,18 +39,24 @@ const todosSlice = createSlice({
             }
         },
         moveDown: (state, action) => {
-            const todo = state.todos.find((todo) => todo.id === action.payload);
-            const index = state.todos.indexOf(todo);
-            if (index < state.todos.length) {
-                const todo = state.todos.find((todo) => todo.id === action.payload);
-                const newArr = state.todos.filter((todo) => todo.id !== action.payload);
+            const todo = state.entities.find((todo) => todo.id === action.payload);
+            const index = state.entities.indexOf(todo);
+            if (index < state.entities.length) {
+                const todo = state.entities.find((todo) => todo.id === action.payload);
+                const newArr = state.entities.filter((todo) => todo.id !== action.payload);
                 newArr.splice(index + 1, 0, todo);
-                state.todos = newArr;
+                state.entities = newArr;
             }
         }
+        // ,
+        // incrementCounter: (state) => {
+        //     state.counter++;
+        // }
     }
 })
 
-export const { addTodo, doneTodo, removeTodo, moveUp, moveDown } = todosSlice.actions;
+export const selectors = todosAdapter.getSelectors(state => state.todosList);
+
+export const { addTodo, doneTodo, removeTodo, moveUp, moveDown, incrementCounter } = todosSlice.actions;
 
 export default todosSlice.reducer;
