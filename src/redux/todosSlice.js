@@ -2,6 +2,8 @@ import { createSlice, createEntityAdapter } from '@reduxjs/toolkit';
 
 const todosAdapter = createEntityAdapter({});
 
+export const { selectAll: selectTodos } = todosAdapter.getSelectors(state => state.todosList);
+
 const todosSlice = createSlice({
     name: 'todos',
     initialState: todosAdapter.getInitialState({
@@ -15,47 +17,32 @@ const todosSlice = createSlice({
                 done: false
             });
             state.counter++;
-        }
-        ,
-        doneTodo: (state, action) => {
-            todosAdapter.updateOne(state, {
-                id: action.payload,
-                changes: { done: state.entities[action.payload].done }
-            })
-        }
+        },
+        doneTodo: todosAdapter.updateOne
         ,
         removeTodo: todosAdapter.removeOne
         ,
         moveUp: (state, action) => {
-            const todo = state.entities.find((todo) => todo.id === action.payload);
-            const index = state.entities.indexOf(todo);
+            const todoId = action.payload
+            const index = state.ids.indexOf(todoId);
             if (index > 0) {
-                const newArr = state.entities.filter((todo) => todo.id !== action.payload);
-                newArr.splice(index - 1, 0, todo);
-                return {
-                    ...state,
-                    todos: newArr
-                }
+                const newArr = state.ids.filter(id => id !== todoId);
+                newArr.splice(index - 1, 0, todoId);
+                state.ids = newArr;
             }
         },
         moveDown: (state, action) => {
-            const todo = state.entities.find((todo) => todo.id === action.payload);
-            const index = state.entities.indexOf(todo);
-            if (index < state.entities.length) {
-                const todo = state.entities.find((todo) => todo.id === action.payload);
-                const newArr = state.entities.filter((todo) => todo.id !== action.payload);
-                newArr.splice(index + 1, 0, todo);
-                state.entities = newArr;
+            const todoId = action.payload
+            const index = state.ids.indexOf(todoId);
+            if (index < state.ids.length) {
+                const newArr = state.ids.filter(id => id !== todoId);
+                newArr.splice(index + 1, 0, todoId);
+                state.ids = newArr;
             }
         }
-        // ,
-        // incrementCounter: (state) => {
-        //     state.counter++;
-        // }
+
     }
 })
-
-export const selectors = todosAdapter.getSelectors(state => state.todosList);
 
 export const { addTodo, doneTodo, removeTodo, moveUp, moveDown, incrementCounter } = todosSlice.actions;
 
