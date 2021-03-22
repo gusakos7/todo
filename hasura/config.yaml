@@ -1,0 +1,7 @@
+version: 2
+endpoint: http://api.todo.test
+admin_secret: au&%%!b*Sz__YE2b
+metadata_directory: metadata
+actions:
+  kind: synchronous
+  handler_webhook_baseurl: http://localhost:3000

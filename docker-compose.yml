@@ -1,0 +1,57 @@
+version: "3"
+
+services:
+  hasura:
+    image: hasura/graphql-engine:$HASURA_TAG
+    container_name: "${PROJECT_NAME}_hasura"
+    restart: unless-stopped
+    depends_on:
+      - "postgres"
+    environment:
+      HASURA_GRAPHQL_DATABASE_URL: postgres://$DB_USER:$DB_PASSWORD@postgres:5432/$DB_NAME
+      HASURA_GRAPHQL_ENABLE_CONSOLE: "false"
+      HASURA_GRAPHQL_ENABLE_TELEMETRY: "false"
+      HASURA_GRAPHQL_UNAUTHORIZED_ROLE: $UNAUTHORIZED_ROLE
+      HASURA_GRAPHQL_ADMIN_SECRET: $HASURA_SECRET
+    volumes:
+      - ./hasura/migrations:/hasura-migrations
+      - ./hasura/metadata:/hasura-metadata
+    labels:
+      - "traefik.http.services.${PROJECT_NAME}_hasura.loadbalancer.server.port=8080"
+      - "traefik.http.routers.${PROJECT_NAME}_hasura.rule=Host(`api.${PROJECT_BASE_URL}`)"
+
+  postgres:
+    image: postgres:$POSTGRES_TAG
+    container_name: "${PROJECT_NAME}_postgres"
+    stop_grace_period: 30s
+    environment:
+      POSTGRES_PASSWORD: $DB_PASSWORD
+      POSTGRES_DB: $DB_NAME
+      POSTGRES_USER: $DB_USER
+    volumes:
+      # - ./postgres-init:/docker-entrypoint-initdb.d # Place init file(s) here.
+      - todo_pgdata:/var/lib/postgresql/data # I want to manage volumes manually.
+
+  portainer:
+    image: portainer/portainer-ce
+    container_name: "${PROJECT_NAME}_portainer"
+    command: -H unix:///var/run/docker.sock
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    labels:
+      - "traefik.http.services.${PROJECT_NAME}_portainer.loadbalancer.server.port=9000"
+      - "traefik.http.routers.${PROJECT_NAME}_portainer.rule=Host(`portainer.${PROJECT_BASE_URL}`)"
+
+  traefik:
+    image: traefik
+    container_name: "${PROJECT_NAME}_traefik"
+    command: --api.insecure=true --providers.docker
+    ports:
+      - "80:80"
+      - "8081:8080" # Dashboard
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+
+volumes:
+  todo_pgdata:
+    external: true
