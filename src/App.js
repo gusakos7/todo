@@ -1,18 +1,20 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './App.css';
 import Todo from './Todo';
 import Header from './Header';
 import { useSelector, useDispatch } from 'react-redux';
-import { addTodo, selectTodos } from './redux/todosSlice';
+import { addTodo, getTodos, selectTodos } from './redux/todosSlice';
 
 import { Button, TextField } from '@material-ui/core'
 
-// import * as Actions from './actions';
+let count = 0;
 
 function App() {
   const [input, setInput] = useState('');
   const dispatch = useDispatch();
   const todos = useSelector(selectTodos);
+
+  const loading = useSelector(state => state.todosList.loading);
 
   const getInput = (val) => {
     setInput(val.target.value);
@@ -21,8 +23,12 @@ function App() {
   const handleClick = () => {
     dispatch(addTodo(input));
     setInput('');
+    count++;
   };
 
+  useEffect(() => {
+    dispatch(getTodos())
+  }, [dispatch]);
 
   return (
     <div className="app">
@@ -50,9 +56,12 @@ function App() {
 
         <section className="app__list">
 
-          {todos.map((todo) => (
-            <Todo text={todo.text} done={todo.done} key={todo.id} id={todo.id} />
-          ))}
+          {
+            loading ? "Adding new Todo..." :
+              todos.map((todo) => (
+                <Todo text={todo.text} done={todo.done} key={todo.id} id={todo.id} priority={count} />
+              ))
+          }
 
         </section>
       </main>

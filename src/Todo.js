@@ -1,12 +1,12 @@
 import React from 'react'
 import './Todo.css';
 import { useDispatch } from 'react-redux';
-import { doneTodo, moveDown, moveUp, removeTodo } from './redux/todosSlice';
+import { updateTodo, moveDown, moveUp, removeTodo } from './redux/todosSlice';
 
 import { Checkbox } from '@material-ui/core';
 import { Button } from '@material-ui/core';
 
-const Todo = ({ text, done, id }) => {
+const Todo = ({ text, done, id, priority }) => {
 
     const dispatch = useDispatch();
 
@@ -18,9 +18,9 @@ const Todo = ({ text, done, id }) => {
                     className="todo__checkbox"
                     color="default"
                     checked={done}
-                    onClick={() => dispatch(doneTodo({
+                    onClick={() => dispatch(updateTodo({
                         id,
-                        changes: { done: !done }
+                        done: !done
                     }))}
                 />
                 <span className="todo__text" >{text}</span>
