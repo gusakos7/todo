@@ -1,8 +1,11 @@
 import { createSlice, createEntityAdapter, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios'
 
-const API_URL = "https://awaited-garfish-42.hasura.app/v1/graphql";
-const HASURA_KEY = "8p3YsFEtO0Y08J4Uv7XFFjDj21ZP9dOeQTqWlL22vrOeiwsDZOzkQTcMWQFvysQS";
+
+const API_URL = process.env.REACT_APP_HASURA_URL;
+const HASURA_KEY = process.env.REACT_APP_HASURA_SECRET;
+
+
 
 export const getTodos = createAsyncThunk(
     'todos/getTodos',
