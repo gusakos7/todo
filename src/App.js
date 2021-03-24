@@ -57,10 +57,13 @@ function App() {
         <section className="app__list">
 
           {
-            loading ? "Adding new Todo..." :
-              todos.map((todo) => (
-                <Todo text={todo.text} done={todo.done} key={todo.id} id={todo.id} priority={count} />
-              ))
+            todos.length === 0 ? "There are no todos, add some..." :
+
+              (loading ? "Adding new Todo..." :
+                todos.map((todo) => (
+                  <Todo text={todo.text} done={todo.done} key={todo.id} id={todo.id} priority={count} />
+                ))
+              )
           }
 
         </section>

@@ -1,6 +1,6 @@
-version: 2
+version: 3
 endpoint: http://api.todo.test
-admin_secret: au&%%!b*Sz__YE2b
+admin_secret: D6uq99KmSUxqPhgj
 metadata_directory: metadata
 actions:
   kind: synchronous
